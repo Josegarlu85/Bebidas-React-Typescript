@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
 @theme {
-  /* La variable debe empezar por --background-image- */
-  --background-image-header: url('public/bg.jpg');
+  --background-image-header: url('bg.jpg');
 }

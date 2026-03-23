@@ -1,11 +1,43 @@
 
-import { useMemo } from "react"
+import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react"
 import { NavLink, useLocation } from "react-router-dom"
+import { useAppStore } from "../stores/useAppStore"
 
 export default function Header() {
+    const [searchFilters, setSearchFilters] = useState ({
+        ingredient: "",
+        category: ""
+    })
   const {pathname} = useLocation()
 
   const isHome = useMemo(() => pathname === '/', [pathname])
+
+  const fetchCategories = useAppStore((state) => state.fetchCategories)
+  const categories = useAppStore((state) => state.categories)
+  const searchRecipes = useAppStore((state) => state.searchRecipes)
+
+
+  useEffect(() => {
+    fetchCategories()
+  }, [])
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
+    setSearchFilters({
+        ...searchFilters,
+        [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) =>{
+    e.preventDefault()
+
+    //Validamos
+    if(Object.values(searchFilters).includes("")){
+        console.log("Todos los campos son obligatorios")
+        return
+    }
+    searchRecipes(searchFilters)
+  }
 
   return (
  <header className={isHome ? 'bg-header bg-center bg-cover min-h-screen' : 'bg-slate-800'}>
@@ -24,23 +56,34 @@ export default function Header() {
 
         {isHome && (
             <form className="md:w-1/2 2xl:w-1/3 my-32 p-10
-            rounded:-lg bg-orange-400 shadow space-y-5  ">
+            rounded:-lg bg-orange-400 shadow space-y-5 "
+            onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="Ingrediente" className="block text-white uppercase font-extrabold text-lg">
+                    <label htmlFor="ingredient" className="block text-white uppercase font-extrabold text-lg">
                         Nombre o ingredientes
                     </label>
-                    <input id="ingrediente" type="text" name="ingredient"
+                    <input id="ingredient" type="text" name="ingredient"
                     className="p-3 w-full bg-white rounded-lg focus:outline-none"
-                    placeholder="Nombre o ingrediente: Ej (Vodka, tequila....)" /> 
+                    placeholder="Nombre o ingrediente: Ej (Vodka, tequila....)" 
+                    onChange={handleChange}
+                    value={searchFilters.ingredient}/> 
                 </div>
                   <div>
-                    <label htmlFor="Ingrediente" className="block text-white uppercase font-extrabold text-lg">
+                    <label htmlFor="category" className="block text-white uppercase font-extrabold text-lg">
                         Categoria
                     </label>
-                    <select  id="ingrediente"  name="ingredient"
+                    <select  id="category"  name="category"
                     className="p-3 w-full bg-white rounded-lg focus:outline-none"
-                   >
+                    onChange={handleChange}
+                    value={searchFilters.category}>
                         <option value="">-- Selecciona una categoria --</option>
+                        {categories?.drinks?.map(category => (
+                            <option value={category.strCategory}
+                            key={category.strCategory}>
+                                {category.strCategory}
+                            </option>
+                        ))}
+
                     </select>
                 </div>
                 <input type="submit" value="Buscar recetas"
