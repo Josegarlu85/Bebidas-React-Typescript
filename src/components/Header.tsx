@@ -15,11 +15,12 @@ export default function Header() {
   const fetchCategories = useAppStore((state) => state.fetchCategories)
   const categories = useAppStore((state) => state.categories)
   const searchRecipes = useAppStore((state) => state.searchRecipes)
+  const showNotification = useAppStore((state) => state.showNotification)
 
 
   useEffect(() => {
     fetchCategories()
-  }, [])
+  }, [fetchCategories])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
     setSearchFilters({
@@ -33,6 +34,10 @@ export default function Header() {
 
     //Validamos
     if(Object.values(searchFilters).includes("")){
+        showNotification({
+            text:"Todos los campos se deben rellenar",
+            error: true
+        })
         console.log("Todos los campos son obligatorios")
         return
     }
