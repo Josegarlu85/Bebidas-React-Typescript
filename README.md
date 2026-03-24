@@ -1,73 +1,85 @@
-# React + TypeScript + Vite
+# 🍸 Cocktail AI - Recipe Explorer & Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Cocktail AI** es una aplicación de alto rendimiento que combina la base de datos de **TheCocktailDB** con la potencia de la **Inteligencia Artificial**. Permite a los usuarios buscar recetas clásicas, gestionar sus favoritos y generar nuevas combinaciones creativas mediante streaming de IA en tiempo real.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Características Principales
 
-## React Compiler
+* 🔍 **Búsqueda Avanzada:** Filtrado por ingredientes y categorías mediante la API de TheCocktailDB.
+* 🤖 **Generador de IA:** Creación de recetas únicas con modelos gratuitos o de pago vía OpenRouter.
+* ⚡ **Streaming de Texto:** Visualización de respuestas de la IA en tiempo real (efecto máquina de escribir).
+* ⭐ **Favoritos:** Gestión de recetas preferidas con persistencia automática en `localStorage`.
+* 🛡️ **Validación Estricta:** Uso de **Zod** para garantizar la integridad de los datos de la API.
+* 📱 **Diseño Moderno:** Interfaz 100% responsive construida con **Tailwind CSS 4** y **Headless UI**.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Stack Tecnológico
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Herramienta | Propósito |
+| :--- | :--- |
+| **React 19** | Biblioteca principal para la interfaz de usuario. |
+| **TypeScript** | Tipado estricto para un desarrollo robusto y sin errores. |
+| **Zustand** | Gestión de estado global mediante Slices escalables. |
+| **Axios** | Cliente HTTP para el consumo de APIs REST. |
+| **Zod** | Validación de esquemas y tipado seguro de respuestas. |
+| **AI SDK (Vercel)** | Integración de modelos de lenguaje (LLM) y streaming. |
+| **Tailwind 4** | Framework de utilidades CSS de última generación. |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📦 Instalación y Configuración
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Requisitos Previos
+* Node.js (v18 o superior)
+* NPM instalado
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Pasos para el arranque local
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/Josegarlu85/Bebidas-React-Typescript.git
+   cd Bebidas-React-Typescript
+   ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2. **Instalar dependencias:**
+   ```bash
+   npm install
+   ```
+
+3. **Configurar Variables de Entorno:**
+
+   Crea un archivo `.env` en la raíz del proyecto  
+   (puedes usar `.env.example` como referencia):
+
+   ```plaintext
+   VITE_OPENROUTER_KEY=tu_clave_de_openrouter_aqui
+   ```
+
+   **Nota:** No dejes espacios después del signo `=`.
+
+4. **Iniciar el servidor de desarrollo:**
+   ```bash
+   npm run dev
+   ```
+
+---
+
+### 🔑 Recordatorio importante
+
+Para obtener tu **API Key de OpenRouter**, visita su panel de usuario y genera una clave nueva.  
+Sin esta clave, las funciones de IA no podrán funcionar correctamente. CUIDADO puedes añadir
+modelos de IA de pago que supondrian un coste.
+
+## 🧪 Control de Calidad y Mantenimiento
+
+Para asegurar que el proyecto se mantiene robusto y libre de errores, se utilizan los siguientes scripts:
+
+* **`npm run dev`**: Inicia el servidor de desarrollo local.
+* **`npm run typecheck`**: Ejecuta el compilador de TypeScript en modo validación (`tsc --noEmit`) para detectar errores de tipado sin generar archivos.
+* **`npm run lint`**: Analiza el código con **ESLint** para asegurar que se cumplen las reglas de estilo y buenas prácticas.
+* **`npm run test`**: Ejecuta la suite de pruebas unitarias con **Vitest** en modo interactivo.
+* **`npm run test:run`**: Ejecuta todos los tests una sola vez (ideal para entornos de Integración Continua).
+* **`npm run build`**: Realiza la comprobación de tipos y genera la versión optimizada para producción en la carpeta `/dist`.
+
